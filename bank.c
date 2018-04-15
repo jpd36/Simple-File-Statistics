@@ -14,18 +14,18 @@ void addAccount();
 void viewAccounts();
 void insert();
 void deposit(int depo);
-void Withdrawal(int draw);
+void withdrawal(int draw);
 void deleteAccount(int delete);
 void balance();
 
 addressbook a[0];
 FILE *pFile;
-FILE *fp_tmp;
+FILE *fFile;
 int count = 0;
 
 int main(){
 int option;
-int depo, draw, delete;
+int depos, draw, delete;
 do{
 printf("0) Exit\n");
 printf("1) Deposit\n");
@@ -40,12 +40,12 @@ switch (option){
    case 0: printf("Exit");
    break;
    case 1: printf("Enter account number to deposit: ");
-   scanf("%d", &depo);
-   deposit(depo);
+   scanf("%d", &depos);
+   deposit(depos);
    break;
    case 2: printf("Enter account number to withdraw: ");
    scanf("%d", &draw);
-   Withdrawal(draw);
+   withdrawal(draw);
    break;
    case 3: addAccount();
    break;
@@ -55,7 +55,7 @@ switch (option){
    break;
    case 5: balance();
    break;
-   case 6:insert(); 
+   case 6:insert();
 	viewAccounts();
    break;
    default: printf("Choose correct option: ");
@@ -98,14 +98,9 @@ void addAccount()
 
 
 void viewAccounts(){
-	fopen("accounts.dat", "ab+");
+	pFile = fopen("accounts.dat", "ab+");
 	if(pFile == NULL){
 		perror("Error!");
-		pFile = fopen("accounts.dat", "ab+");
-	if(pFile == NULL){
-		perror("Error!");
-		exit(1);
-	}
 	}
 	printf(" Open an account today!\n");
 	int i;
@@ -119,7 +114,7 @@ void viewAccounts(){
 		printf("\n");
 	}
 	fclose(pFile);
-	}
+}
 
 void deposit(int depo){
 	int new, past;
@@ -140,13 +135,12 @@ void deposit(int depo){
 		printf("Success.\n");
 	}
 	else{
-		printf("Fail.\n");
-		printf("Enter Account Number\n");
+		printf("Fail. Try again.\n");
 	}
 	fclose(pFile);
 }
 
-void Withdrawal(int draw){
+void withdrawal(int draw){
 	int new, past;
 	int i, c;
 	fopen("accounts.dat", "r+");
@@ -158,7 +152,7 @@ void Withdrawal(int draw){
 			scanf("%d", &new);
 			past -= new;
 			a[i].accountBalance = past;
-			c = fwrite(&a[i].accountBalance, 25, 1,pFile);
+			c = fwrite(&a[i].accountBalance, 25, 1, pFile);
 		}
 	}
 	if(c == 1){
@@ -175,29 +169,27 @@ void deleteAccount(int delete){
 	int i, c=0;
 	fopen("accounts.dat", "r+");
 	for(i = 0; i < count; i++){
-		fp_tmp=fopen("tmp.dat", "a+");
+		fFile=fopen("tmp.dat", "a+");
 		fread(&a[i], sizeof(a), 1, pFile );
 		if(a[i].accountNumber == delete){
 			printf("Account removed!\n");
 			c = 1;
 		}
     else{
-      fwrite(&a[i], sizeof(a), 1, fp_tmp);
+      fwrite(&a[i], sizeof(a), 1, fFile);
     }
 	}
 	if(c == 0){
 		printf("No records found!\n");
 	}
 	fclose(pFile);
-	fclose(fp_tmp);
-	remove("accounts.txt");
+	fclose(fFile);
+	remove("accounts.dat");
 	count--;
 }
 
 void balance(){
-        int new, acc;
-        int i, c=0;
-        int count = 0;
+        int new, acc, i, c=0;
         printf("Enter account number: ");
         scanf("%d", &acc);
         fopen("accounts.dat", "r");
@@ -213,9 +205,8 @@ void balance(){
                         c=1;
                 }
                 printf("\n");
-                if(c == 0){
-                        printf("Enter Account Number\n");
-                }
         }
         fclose(pFile);
-        }
+       }
+
+

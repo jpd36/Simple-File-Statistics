@@ -1,14 +1,10 @@
-/*Jonathan Pham
- * cs2750
- * 04/15/18
- */
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "bankfunc.h"
 
 typedef struct{
-	int accountNumber;
+	char accountNumber;
 	char firstName[25];
 	char middleName[25];
 	char lastName[25];
@@ -18,7 +14,7 @@ typedef struct{
 void addAccount();
 void viewAccounts();
 void insert();
-void deposit(int depo);
+void deposit(char depo);
 void withdrawal(int draw);
 void deleteAccount(int delete);
 void balance();
@@ -93,11 +89,16 @@ void addAccount()
     		scanf("%s", a[count].lastName);
     		printf("Please enter 6 digit account number: \n");
     		scanf("%d", &a[count].accountNumber);
-    		printf("Enter Balance: \n");
-    		scanf("%f", &a[count].accountBalance);
-    		fwrite(&a[count], sizeof(a), 1, pFile);
+    			if(isdigit(isalpha(a[count].accountNumber))){
+    				printf("Enter Balance: \n");
+    				scanf("%f", &a[count].accountBalance);
+    				fwrite(&a[count], sizeof(a), 1, pFile);
+    				fclose(pFile);
+    			}
+    			else{
+    				printf("Numbers only.\n");
+    			}
 	}
-	fclose(pFile);
 	count = count + 1;
 }
 
@@ -111,7 +112,7 @@ void viewAccounts(){
 	int i;
 	for(i=0; i<count; i++){
 		fread(&a[i], sizeof(a), 1, pFile );
-		printf("Account: %d\n", a[i].accountNumber);
+		printf("Account: %s\n", a[i].accountNumber);
 		printf(" Name: %s ", a[i].firstName);
 		printf("%s", a[i].middleName);
 		printf(" %s\n", a[i].lastName);
@@ -121,7 +122,7 @@ void viewAccounts(){
 	fclose(pFile);
 }
 
-void deposit(int depo){
+void deposit(char depo){
 	int new, past;
 	int i, c;
 	fopen("accounts.dat", "r+");
@@ -146,7 +147,7 @@ void deposit(int depo){
 }
 
 void withdrawal(int draw){
-	int new, past;
+	char new, past;
 	int i, c;
 	fopen("accounts.dat", "r+");
 	for(i = 0; i < count; i++){
@@ -194,7 +195,7 @@ void deleteAccount(int delete){
 }
 
 void balance(){
-        int new, acc, i, c=0;
+        char new, acc, i, c=0;
         printf("Enter account number: ");
         scanf("%d", &acc);
         fopen("accounts.dat", "r");
@@ -202,7 +203,7 @@ void balance(){
                 fread(&a[i], sizeof(a), 1, pFile);
                 new = a[i].accountNumber;
                 if(new == acc){
-                        printf("Account: %d\n", a[i].accountNumber);
+                        printf("Account: %s\n", a[i].accountNumber);
                         printf(" Name: %s ", a[i].firstName);
                         printf("%s", a[i].middleName);
                         printf(" %s\n", a[i].lastName);
@@ -213,5 +214,4 @@ void balance(){
         }
         fclose(pFile);
        }
-
 

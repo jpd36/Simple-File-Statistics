@@ -1,6 +1,11 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+/*Jonathan Pham
+ *cs2750
+ *04/15/18
+ */
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "wcfunc.h"
 
 int main(int argc,char *argv[]){

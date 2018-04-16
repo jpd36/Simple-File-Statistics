@@ -9,7 +9,8 @@
 #include "wcfunc.h"
 
 int main(int argc,char *argv[]){
-        FILE *filep;
+       
+	 FILE *filep;
         char filename[200];
         char ch;
         int linecount, wordcount, charcount;

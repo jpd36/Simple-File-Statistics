@@ -1,3 +1,8 @@
+/*Jonathan Pham
+ * cs2750
+ * 04/15/18
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "bankfunc.h"
@@ -98,14 +103,9 @@ void addAccount()
 
 
 void viewAccounts(){
-	fopen("accounts.dat", "ab+");
+	pFile = fopen("accounts.dat", "ab+");
 	if(pFile == NULL){
 		perror("Error!");
-		pFile = fopen("accounts.dat", "ab+");
-	if(pFile == NULL){
-		perror("Error!");
-		exit(1);
-	}
 	}
 	printf(" Open an account today!\n");
 	int i;
@@ -119,7 +119,7 @@ void viewAccounts(){
 		printf("\n");
 	}
 	fclose(pFile);
-	}
+}
 
 void deposit(int depo){
 	int new, past;
@@ -140,8 +140,7 @@ void deposit(int depo){
 		printf("Success.\n");
 	}
 	else{
-		printf("Fail.\n");
-		printf("Enter Account Number\n");
+		printf("Fail. Try again.\n");
 	}
 	fclose(pFile);
 }
@@ -195,7 +194,7 @@ void deleteAccount(int delete){
 }
 
 void balance(){
-        int new, acc, i, c=0, count=0;
+        int new, acc, i, c=0;
         printf("Enter account number: ");
         scanf("%d", &acc);
         fopen("accounts.dat", "r");
@@ -211,10 +210,8 @@ void balance(){
                         c=1;
                 }
                 printf("\n");
-                if(c == 0){
-                        printf("Enter Account Number\n");
-                }
         }
         fclose(pFile);
-        }
+       }
+
 

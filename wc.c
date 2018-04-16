@@ -9,7 +9,6 @@
 #include "wcfunc.h"
 
 int main(int argc,char *argv[]){
-
         FILE *filep;
         char filename[200];
         char ch;
@@ -39,7 +38,6 @@ int main(int argc,char *argv[]){
         else{
             printf("Failed to open file\n");
         }
-
         print(linecount, wordcount, charcount);
         return 0;
 }

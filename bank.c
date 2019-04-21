@@ -1,3 +1,8 @@
+/*Jonathan Pham
+ * cs2750
+ * 04/17/18
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "bankfunc.h"
@@ -117,7 +122,7 @@ void viewAccounts(){
 
 void deposit(int depo){
 	int new, past;
-	int i, c;
+	int i, x;
 	fopen("accounts.dat", "r+");
 	for(i = 0; i < count; i++){
 		fread(&a[i], sizeof(a), 1,pFile);
@@ -127,10 +132,10 @@ void deposit(int depo){
     		scanf("%d", &new);
     		new += past;
     		a[i].accountBalance = new;
-    		c = fwrite(&a[i].accountBalance, 25, 1, pFile);
+    		x = fwrite(&a[i].accountBalance, 25, 1, pFile);
     }
 	}
-	if(c == 1){
+	if(x == 1){
 		printf("Success.\n");
 	}
 	else{
@@ -141,7 +146,7 @@ void deposit(int depo){
 
 void withdrawal(int draw){
 	int new, past;
-	int i, c;
+	int i, x;
 	fopen("accounts.dat", "r+");
 	for(i = 0; i < count; i++){
 		fread(&a[i], sizeof(a), 1, pFile);
@@ -151,10 +156,10 @@ void withdrawal(int draw){
 			scanf("%d", &new);
 			past -= new;
 			a[i].accountBalance = past;
-			c = fwrite(&a[i].accountBalance, 25, 1, pFile);
+			x = fwrite(&a[i].accountBalance, 25, 1, pFile);
 		}
 	}
-	if(c == 1){
+	if(x == 1){
 		printf("Success\n");
 	}
 	else{
@@ -165,20 +170,20 @@ void withdrawal(int draw){
 }
 
 void deleteAccount(int delete){
-	int i, c=0;
+	int i, x=0;
 	fopen("accounts.dat", "r+");
 	for(i = 0; i < count; i++){
 		fFile=fopen("tmp.dat", "a+");
 		fread(&a[i], sizeof(a), 1, pFile );
 		if(a[i].accountNumber == delete){
 			printf("Account removed!\n");
-			c = 1;
+			x = 1;
 		}
     else{
       fwrite(&a[i], sizeof(a), 1, fFile);
     }
 	}
-	if(c == 0){
+	if(x == 0){
 		printf("No records found!\n");
 	}
 	fclose(pFile);
@@ -188,7 +193,7 @@ void deleteAccount(int delete){
 }
 
 void balance(){
-        int new, acc, i, c=0;
+        int new, acc, i, x=0;
         printf("Enter account number: ");
         scanf("%d", &acc);
         fopen("accounts.dat", "r");
@@ -201,7 +206,7 @@ void balance(){
                         printf("%s", a[i].middleName);
                         printf(" %s\n", a[i].lastName);
                         printf(" Balance: $ %.2f\n", a[i].accountBalance);
-                        c=1;
+                        x=1;
                 }
                 printf("\n");
         }
